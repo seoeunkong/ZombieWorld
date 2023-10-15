@@ -31,11 +31,11 @@ public class Reposition : MonoBehaviour
             case "Ground":
                 if (diffX > diffY)
                 {
-                    transform.Translate(Vector3.right * dirX * 40);
+                    transform.Translate(Vector3.right * dirX * 60);
                 }
                 else if (diffX < diffY)
                 {
-                    transform.Translate(Vector3.up * dirY * 40);
+                    transform.Translate(Vector3.up * dirY * 60);
                 }
                 break;
 
@@ -43,7 +43,7 @@ public class Reposition : MonoBehaviour
                 if (coll.enabled)
                 {
                     //플레이어의 이동 방향에 따라 맞은 편에서 등장하도록 이동
-                    transform.Translate(playerDir * 20 + new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f), 0f));
+                    transform.Translate(playerDir * 40 + new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f), 0f));
 
                 }
                 break;

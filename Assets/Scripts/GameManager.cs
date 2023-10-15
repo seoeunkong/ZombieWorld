@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public PoolManager pool;
 
     [Header("# Game Object")]
     public Player player;
