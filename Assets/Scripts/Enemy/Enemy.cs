@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
     public float maxHealth;
     bool isLive = true;
 
-    //public RuntimeAnimatorController[] animCon;
+    public RuntimeAnimatorController[] animCon;
     public Rigidbody2D target; //속도, 목표, 생존여부를 위한 변수
     WaitForFixedUpdate wait;
 
@@ -60,6 +60,16 @@ public class Enemy : MonoBehaviour
     void OnEnable()
     {
         target = GameManager.instance.player.GetComponent<Rigidbody2D>();
-    
+        isLive = true;
+        health = maxHealth;
+    }
+
+    //초기 속성을 적용하는 함수 
+    public void Init(SpawnData data)
+    {
+        anim.runtimeAnimatorController = animCon[data.spriteType];
+        speed = data.speed;
+        maxHealth = data.health;
+        health = data.health;
     }
 }
