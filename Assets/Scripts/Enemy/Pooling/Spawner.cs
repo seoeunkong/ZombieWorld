@@ -22,7 +22,7 @@ public class Spawner : MonoBehaviour
         //if (!GameManager.instance.isLive) return;
 
         timer += Time.deltaTime;
-        //level = Mathf.Min(Mathf.FloorToInt(GameManager.instance.gameTime / 10f), spawnData.Length - 1);  //적절한 숫자로 나누어 시간에 맞춰 레벨이 올라가도록 작성
+        //적절한 숫자로 나누어 시간에 맞춰 레벨업 
         level = Mathf.FloorToInt(GameManager.instance.gameTime / 10f);
 
 

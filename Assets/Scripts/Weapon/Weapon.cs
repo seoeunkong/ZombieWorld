@@ -13,6 +13,14 @@ public class Weapon : MonoBehaviour
     public int count; //개수
     public float speed;
 
+    Player player;
+    float timer;
+
+    void Awake()
+    {
+        player = GetComponentInParent<Player>();
+    }
+
     void Start()
     {
         Init();
@@ -30,7 +38,14 @@ public class Weapon : MonoBehaviour
                 break;
 
             default:
-                
+                timer += Time.deltaTime;
+
+                //speed는 연사속도. 연사속도가 적을수록 많이 발사 
+                if (timer > speed)
+                {
+                    timer = 0f;
+                    Fire();
+                }
                 break;
         }
 
@@ -105,7 +120,23 @@ public class Weapon : MonoBehaviour
     }
 
 
+    void Fire()
+    {
+        //가장 가까이 몬스터가 없으면 그냥 넘어감
+        if (!player.scanner.nearestTarget)
+            return;
 
+        Vector3 target = player.scanner.nearestTarget.position;
+        Vector3 dir = target - transform.position;
+        dir = dir.normalized; //방향
+
+
+        Transform bullet = GameManager.instance.pool.Get(prefabid).transform;
+        bullet.position = transform.position; //기존 생성 로직 그대로 활용하면서 위치를 플레이어 위치로 지정
+        //지정된 축을 중심으로 목표를 향해 회전하는 함수 
+        bullet.rotation = Quaternion.FromToRotation(Vector3.up, dir);
+        bullet.GetComponent<Bullet>().Init(damage, count, dir);
+    }
 
 
 
