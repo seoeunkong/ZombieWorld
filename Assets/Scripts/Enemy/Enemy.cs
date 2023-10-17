@@ -18,6 +18,8 @@ public class Enemy : MonoBehaviour
     SpriteRenderer spriter;
     Collider2D coll;
 
+    Drop drop;
+
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -25,6 +27,7 @@ public class Enemy : MonoBehaviour
         spriter = GetComponent<SpriteRenderer>();
         wait = new WaitForFixedUpdate();
         coll = GetComponent<Collider2D>();
+        drop = GetComponent<Drop>();
     }
 
 
@@ -53,7 +56,7 @@ public class Enemy : MonoBehaviour
 
     void Dead()
     {
-        ItemInit();
+        drop.Create();
         gameObject.SetActive(false);
     }
 
@@ -116,12 +119,7 @@ public class Enemy : MonoBehaviour
 
     }
 
-    void ItemInit()
-    {
-        Transform item = GameManager.instance.pool.Get(4).transform;
-        item.position = transform.position;
-
-    }
+    
 
 
 }

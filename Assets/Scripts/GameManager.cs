@@ -24,6 +24,10 @@ public class GameManager : MonoBehaviour
     //각 레벨의 필요경험치를 보관할 배열 변수 선언 및 초기화 
     public int[] nextExp = { 10, 30, 60, 100, 150, 210, 280, 360, 450, 600 };
 
+    [Header("# Item")]
+    public int itemCnt = 0; //아이템 개수
+    public bool magActivate;
+
 
     void Awake()
     {
@@ -46,6 +50,12 @@ public class GameManager : MonoBehaviour
             gameTime = maxGameTime;
             //GameVictory();
         }
+
+        //자석 아이템 사용 
+        if (magActivate)
+        {
+            pool.Move(4);
+        }
     }
 
     public void GetExp()
@@ -60,6 +70,13 @@ public class GameManager : MonoBehaviour
             exp = 0;
             //uiLevelUp.Show();
         }
+    }
+
+    //아이템 총 개수 체크 
+    public void itemCount(bool active)
+    {
+        if (active) itemCnt++;
+        else itemCnt--;
     }
 
 }

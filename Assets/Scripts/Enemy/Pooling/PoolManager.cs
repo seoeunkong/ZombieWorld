@@ -8,7 +8,6 @@ public class PoolManager : MonoBehaviour
     List<GameObject>[] pools; //오브젝트 풀들을 저장할 배열 변수 선언
 
 
-
     void Awake()
     {
         //리스트 배열 초기화할 때 크기는 프리펩 배열 길이 활용 
@@ -21,6 +20,8 @@ public class PoolManager : MonoBehaviour
 
     }
 
+
+
     public GameObject Get(int index)
     {
         GameObject select = null;
@@ -29,7 +30,7 @@ public class PoolManager : MonoBehaviour
         //선택한 풀에서 놀고 있는(비활성화) 오브젝트 접근
         foreach (GameObject item in pools[index])
         {
-
+            
             if (!item.activeSelf)
             {
                 //발견하면 select 변수에 할당
@@ -49,7 +50,27 @@ public class PoolManager : MonoBehaviour
         }
 
 
+        if(index == 4 || index == 5) //아이템인 경우 총 아이템 개수 증가 
+        {
+            GameManager.instance.itemCount(true);
+        }
 
         return select;
+    }
+
+    //활성화된 coin 이동 
+    public void Move(int index)
+    {
+        Item itm = null;
+        foreach (GameObject item in pools[index])
+        {
+            if (!item.activeSelf) continue;
+
+            itm = item.GetComponent<Item>();
+            GameManager.instance.GetExp();
+            itm.MoveToPlayer();
+
+        }
+        GameManager.instance.magActivate = false;
     }
 }

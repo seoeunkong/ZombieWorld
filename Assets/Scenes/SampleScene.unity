@@ -9741,6 +9741,7 @@ MonoBehaviour:
   kill: 0
   exp: 0
   nextExp: 0a0000001e0000003c0000006400000096000000d20000001801000068010000c201000058020000
+  itemCnt: 0
 --- !u!4 &684094055
 Transform:
   m_ObjectHideFlags: 0
@@ -41201,6 +41202,7 @@ MonoBehaviour:
   - {fileID: 7197584831256590521, guid: 740edb216dc1b4c34b3f8ab8d45210ea, type: 3}
   - {fileID: 3575642649399736101, guid: d76201df496094040977f9249a65ceec, type: 3}
   - {fileID: 2048450627848204797, guid: f488c005f7666423ca63d388b036d7a4, type: 3}
+  - {fileID: 987017877163323697, guid: e4ed9b616cec74913be97ae9049d02d9, type: 3}
 --- !u!4 &2088636724
 Transform:
   m_ObjectHideFlags: 0
