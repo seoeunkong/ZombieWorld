@@ -5,15 +5,20 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public PoolManager pool;
 
     [Header("# Game Object")]
+    public PoolManager pool;
     public Player player;
+    public LevelUp uiLevelUp;
+    //public Result uiResult;
+    public GameObject enemyCleaner;
+
 
     [Header("# Game Control")]
     public bool isLive; //시간 정지 여부 
     public float gameTime;
     public float maxGameTime;
+
 
     [Header("# Player Info")]
     public int level; //레벨
@@ -22,7 +27,7 @@ public class GameManager : MonoBehaviour
     public int kill; //킬 수 
     public int exp; //경험치
     //각 레벨의 필요경험치를 보관할 배열 변수 선언 및 초기화 
-    public int[] nextExp = { 10, 30, 60, 100, 150, 210, 280, 360, 450, 600 };
+    public int[] nextExp;
 
     [Header("# Item")]
     public int itemCnt = 0; //아이템 개수
@@ -32,17 +37,20 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this; //자기자신으로 초기화
+        isLive = true;
 
     }
 
     void Start()
     {
         health = maxHealth;
+
+        uiLevelUp.Select(0);
     }
 
     void Update()
     {
-        //if (!isLive) return;
+        if (!isLive) return;
 
         gameTime += Time.deltaTime;
 
@@ -61,15 +69,15 @@ public class GameManager : MonoBehaviour
 
     public void GetExp()
     {
-        //if (!isLive) return;
+        if (!isLive) return;
 
         exp++;
 
-        if (exp == nextExp[level]) //min 함수를 사용하여 최고 경험치를 그대로 사용하도록 변경 
+        if (exp == nextExp[Mathf.Min(level, nextExp.Length - 1)]) //min 함수를 사용하여 최고 경험치를 그대로 사용하도록 변경 
         {
             level++;
             exp = 0;
-            //uiLevelUp.Show();
+            uiLevelUp.Show();
         }
     }
 
@@ -78,6 +86,21 @@ public class GameManager : MonoBehaviour
     {
         if (active) itemCnt++;
         else itemCnt--;
+    }
+
+
+    public void Stop()
+    {
+        isLive = false;
+        //유니티의 시간 속도(배율)
+        Time.timeScale = 0;
+    }
+
+
+    public void Resume()
+    {
+        isLive = true;
+        Time.timeScale = 1;
     }
 
 }

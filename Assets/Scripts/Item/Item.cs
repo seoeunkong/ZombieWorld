@@ -19,7 +19,9 @@ public class Item : MonoBehaviour
 
     void Update()
     {
-        if(activate)
+        if (!GameManager.instance.isLive) return;
+
+        if (activate)
             MoveToPlayer();
     }
 

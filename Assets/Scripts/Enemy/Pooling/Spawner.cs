@@ -19,7 +19,7 @@ public class Spawner : MonoBehaviour
 
     void Update()
     {
-        //if (!GameManager.instance.isLive) return;
+        if (!GameManager.instance.isLive) return;
 
         timer += Time.deltaTime;
         //적절한 숫자로 나누어 시간에 맞춰 레벨업 
