@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class GameManager : MonoBehaviour
     public PoolManager pool;
     public Player player;
     public LevelUp uiLevelUp;
-    //public Result uiResult;
+    public Result uiResult;
     public GameObject enemyCleaner;
 
 
@@ -37,16 +38,50 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this; //자기자신으로 초기화
-        isLive = true;
 
     }
 
-    void Start()
+    public void GameStart()
     {
         health = maxHealth;
-
         uiLevelUp.Select(0);
+        Resume();
     }
+
+    public void GameRetry()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void GameOver()
+    {
+        StartCoroutine(GameOverRoutine());
+    }
+
+    IEnumerator GameOverRoutine()
+    {
+        isLive = false;
+        yield return new WaitForSeconds(0.5f); //애니메이션 보기 전에 stop을 할 수 있기 때문에 딜레이함
+        uiResult.gameObject.SetActive(true);
+        uiResult.Lose();
+        Stop();
+    }
+
+    public void GameVictory()
+    {
+        StartCoroutine(GameVictoryRoutine());
+    }
+
+    IEnumerator GameVictoryRoutine()
+    {
+        isLive = false;
+        enemyCleaner.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        uiResult.gameObject.SetActive(true);
+        uiResult.Win();
+        Stop();
+    }
+
 
     void Update()
     {
@@ -57,7 +92,7 @@ public class GameManager : MonoBehaviour
         if (gameTime > maxGameTime)
         {
             gameTime = maxGameTime;
-            //GameVictory();
+            GameVictory();
         }
 
         //자석 아이템 사용 
