@@ -8,6 +8,7 @@ TagManager:
   - Area
   - Enemy
   - Bullet
+  - CoinArea
   layers:
   - Default
   - TransparentFX

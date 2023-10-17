@@ -5,14 +5,24 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     public int prefabID;
+    public bool activate;
 
     Rigidbody2D rigid;
+    float speed = 20.0f;
     
 
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
+        activate = false;
     }
+
+    void Update()
+    {
+        if(activate)
+            MoveToPlayer();
+    }
+
 
     public void Init(int prefabID)
     {
@@ -25,7 +35,7 @@ public class Item : MonoBehaviour
         Vector3 dir = target - transform.position;
         dir = dir.normalized; //방향
 
-        rigid.AddForce(dir * 50.0f, ForceMode2D.Impulse);
+        transform.Translate(dir * Time.deltaTime * speed);
         
     }
 
@@ -36,12 +46,14 @@ public class Item : MonoBehaviour
             GameManager.instance.GetExp();
             GameManager.instance.itemCount(false); //아이템 총 개수 감소
 
-            if(prefabID == 5)
+            if (prefabID == 5)
             {
                 GameManager.instance.magActivate = true;
             }
 
+            activate = false;
             gameObject.SetActive(false);
         }
+
     }
 }

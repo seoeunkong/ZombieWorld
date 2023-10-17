@@ -8,6 +8,7 @@ public class PoolManager : MonoBehaviour
     List<GameObject>[] pools; //오브젝트 풀들을 저장할 배열 변수 선언
 
 
+
     void Awake()
     {
         //리스트 배열 초기화할 때 크기는 프리펩 배열 길이 활용 
@@ -58,6 +59,7 @@ public class PoolManager : MonoBehaviour
         return select;
     }
 
+
     //활성화된 coin 이동 
     public void Move(int index)
     {
@@ -68,7 +70,7 @@ public class PoolManager : MonoBehaviour
 
             itm = item.GetComponent<Item>();
             GameManager.instance.GetExp();
-            itm.MoveToPlayer();
+            itm.activate = true;
 
         }
         GameManager.instance.magActivate = false;

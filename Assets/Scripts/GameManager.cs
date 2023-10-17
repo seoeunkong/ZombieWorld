@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this; //자기자신으로 초기화
+
     }
 
     void Start()

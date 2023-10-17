@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
         spriter = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         scanner = GetComponent<Scanner>();
+
+        
     }
 
     void FixedUpdate()
