@@ -31,8 +31,11 @@ public class GameManager : MonoBehaviour
     public int[] nextExp;
 
     [Header("# Item")]
-    public int itemCnt = 0; //아이템 개수
+    public int itemCnt; //아이템 개수
     public bool magActivate;
+
+    float cRate = 5f; //coin 비율
+    float mRate = 2f; // mag 비율
 
 
     void Awake()
@@ -101,6 +104,25 @@ public class GameManager : MonoBehaviour
             pool.Move(4);
         }
     }
+
+
+
+    public int GetRanItm()
+    {
+        //총 개수에 따른 coin 개수 구하기 
+        float a = mRate / (cRate + mRate);
+        float rate = itemCnt - (itemCnt * a);
+
+        int tmp = Random.Range(0, itemCnt);
+
+        if (tmp <= rate)
+        {
+             return 4; // prefabID로 반환
+        }
+        else return 5;
+        
+    }
+
 
     public void GetExp()
     {

@@ -26,7 +26,7 @@ public class Spawner : MonoBehaviour
         level = Mathf.FloorToInt(GameManager.instance.gameTime / 10f);
 
 
-        if (timer > spawnData[level].spawnTime) //레벨을 활용해 소환 타이밍을 변경
+        if (timer > spawnData[Mathf.Min(level, spawnData.Length - 1)].spawnTime) //레벨을 활용해 소환 타이밍을 변경
         {
 
             Spawn();
@@ -40,7 +40,7 @@ public class Spawner : MonoBehaviour
     {
         GameObject enemy = GameManager.instance.pool.Get(0);
         enemy.transform.position = spawnPoint[Random.Range(1, spawnPoint.Length)].position; //자식 오브젝트에서만 선택되도록 랜덤 시작은 1부터
-        enemy.GetComponent<Enemy>().Init(spawnData[level]);
+        enemy.GetComponent<Enemy>().Init(spawnData[Mathf.Min(level, spawnData.Length - 1)]);
     }
 
 }
