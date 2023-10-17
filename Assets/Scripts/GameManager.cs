@@ -30,6 +30,11 @@ public class GameManager : MonoBehaviour
         instance = this; //자기자신으로 초기화
     }
 
+    void Start()
+    {
+        health = maxHealth;
+    }
+
     void Update()
     {
         //if (!isLive) return;

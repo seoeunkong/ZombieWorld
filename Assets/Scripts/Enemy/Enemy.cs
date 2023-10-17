@@ -101,7 +101,6 @@ public class Enemy : MonoBehaviour
             anim.SetBool("Dead", true);
 
             GameManager.instance.kill++;
-            //GameManager.instance.GetExp();
         }
 
     }
