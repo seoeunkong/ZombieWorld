@@ -34,8 +34,7 @@ public class Enemy : MonoBehaviour
 
         //if (!GameManager.instance.isLive) return;
 
-        //if (!isLive || anim.GetCurrentAnimatorStateInfo(0).IsName("Hit")) return;
-        if (!isLive) return;
+        if (!isLive || anim.GetCurrentAnimatorStateInfo(0).IsName("Hit")) return;
 
         //플레이어 추적 로직 
         Vector2 dirVec = target.position - rigid.position; //타겟 위치 - 몬스터 위치
@@ -54,13 +53,19 @@ public class Enemy : MonoBehaviour
 
     void Dead()
     {
+        ItemInit();
         gameObject.SetActive(false);
     }
 
     void OnEnable()
     {
         target = GameManager.instance.player.GetComponent<Rigidbody2D>();
+
         isLive = true;
+        coll.enabled = true;
+        rigid.simulated = true;
+        spriter.sortingOrder = 3;
+        anim.SetBool("Dead", false);
         health = maxHealth;
     }
 
@@ -75,22 +80,49 @@ public class Enemy : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Bullet"))
+        if (!collision.CompareTag("Bullet")||!isLive)
             return;
 
         health -= collision.GetComponent<Bullet>().damage;
-        //StartCoroutine(KnockBack());
+        StartCoroutine(KnockBack());
 
         if (health > 0)
         {
             //Live, Hit action
-            //anim.SetTrigger("Hit");
+            anim.SetTrigger("Hit");
 
         }
         else
         {
-            Dead();
+            isLive = false;
+            coll.enabled = false;
+            rigid.simulated = false;
+            spriter.sortingOrder = 1;
+            anim.SetBool("Dead", true);
+
+            GameManager.instance.kill++;
+            //GameManager.instance.GetExp();
         }
 
     }
+
+
+    IEnumerator KnockBack()
+    {
+        yield return wait; //다음 하나의 물리 프레임 딜레이 
+
+        Vector3 playerPos = GameManager.instance.player.transform.position;
+        Vector3 dirVec = transform.position - playerPos; // 플레이어 기준 반대 방향 
+        rigid.AddForce(dirVec.normalized * 3, ForceMode2D.Impulse);
+
+    }
+
+    void ItemInit()
+    {
+        Transform item = GameManager.instance.pool.Get(4).transform;
+        item.position = transform.position;
+
+    }
+
+
 }

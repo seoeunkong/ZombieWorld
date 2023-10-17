@@ -15,6 +15,16 @@ public class GameManager : MonoBehaviour
     public float gameTime;
     public float maxGameTime;
 
+    [Header("# Player Info")]
+    public int level; //레벨
+    public float health;
+    public float maxHealth = 100;
+    public int kill; //킬 수 
+    public int exp; //경험치
+    //각 레벨의 필요경험치를 보관할 배열 변수 선언 및 초기화 
+    public int[] nextExp = { 10, 30, 60, 100, 150, 210, 280, 360, 450, 600 };
+
+
     void Awake()
     {
         instance = this; //자기자신으로 초기화
@@ -30,6 +40,20 @@ public class GameManager : MonoBehaviour
         {
             gameTime = maxGameTime;
             //GameVictory();
+        }
+    }
+
+    public void GetExp()
+    {
+        //if (!isLive) return;
+
+        exp++;
+
+        if (exp == nextExp[level]) //min 함수를 사용하여 최고 경험치를 그대로 사용하도록 변경 
+        {
+            level++;
+            exp = 0;
+            //uiLevelUp.Show();
         }
     }
 
